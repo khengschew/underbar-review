@@ -112,14 +112,19 @@
     if (iterator === undefined || typeof iterator !== 'function') {
       iterator = _.identity;
     }
-    _.each(array, function(val) {
+
+    for (var i = 0; i < array.length; i++) {
+      var val = array[i];
       var tempVal = iterator(val);
       if (_.indexOf(tempArr, tempVal) === -1) {
         tempArr.push(tempVal);
         retArr.push(val);
-      } 
-    });
-    
+      } else {
+        if (isSorted) {
+          break;
+        }
+      }
+    }
     return retArr;
   };
 
@@ -287,6 +292,7 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    return array;
   };
 
 
