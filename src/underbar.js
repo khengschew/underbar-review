@@ -109,9 +109,18 @@
     var retArr = [];
     var tempArr = [];
 
-    if (iterator !== undefined) {
-
+    if (iterator === undefined || typeof iterator !== 'function') {
+      iterator = _.identity;
     }
+    _.each(array, function(val) {
+      var tempVal = iterator(val);
+      if (_.indexOf(tempArr, tempVal) === -1) {
+        tempArr.push(tempVal);
+        retArr.push(val);
+      } 
+    });
+    
+    return retArr;
   };
 
 
