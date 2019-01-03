@@ -134,6 +134,16 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+
+    var tempArr = [];
+    // Use _.each
+      // Pass in collection
+      // Pass in function that returns iterator that has the collection's value passed in
+    _.each(collection, function(val) {
+      tempArr.push(iterator(val));
+    });
+
+    return tempArr;
   };
 
   /*
@@ -175,6 +185,40 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    // input: array/object, iterator function, accumulator (optional)
+    // output: single value/object/array
+     
+    // State: no accumulator passed
+      // Loop through collection from index 1 to end:
+        // call iterator on each element (iterator(memo = accumulator, item = value))
+    // if (accumulator === undefined) {
+    // // Set accumulator
+    // accumulator = accumulator || Array.isArray(collection) ? collection[0] : FILL_ME_IN;
+
+    //   for (var i = 1; i < collection.length; i++) {
+    //     accumulator = iterator(accumulator, collection[i]);
+    //   }
+    // }
+
+    // State: accumulator available
+    // Loop through collection from index 0 to end:
+    // call iterator on each element (iterator(memo = accumulator, item = value))
+    
+    // Loop from 0 to length
+      // check if i = 0
+      // if start of loop, check if accumulator assigned
+        // if not assigned, set to first value, continue
+      // perform loop operation
+    for (var i = 0; i < collection.length; i++) {
+      if (i === 0 && accumulator === undefined) {
+        accumulator = collection[i];
+        continue;
+      }
+
+      accumulator = iterator(accumulator, collection[i]);
+    }
+
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
