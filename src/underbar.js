@@ -283,11 +283,33 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var args = Array.from(arguments).slice(1);
+    // For every item in args at index 1
+    for (var i = 0; i < args.length; i++){
+      // For...in item, add to obj
+      for (var key in args[i]) {
+        obj[key] = args[i][key];
+      }
+    }
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var args = Array.from(arguments).slice(1);
+    // For every item in args at index 1
+    for (var i = 0; i < args.length; i++){
+      // For...in item, add to obj
+      for (var key in args[i]) {
+        if (obj[key] === undefined) {
+          obj[key] = args[i][key];
+        }
+      }
+    }
+
+    return obj;
   };
 
 
@@ -331,6 +353,18 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+    var cache = {};
+
+    return function(...args) {
+      if (cache[JSON.stringify(args)]) {
+        return cache[JSON.stringify(args)];
+      } else {
+        cache[JSON.stringify(args)] = func(...args);
+        return cache[JSON.stringify(args)];
+      }
+    }
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -340,6 +374,8 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var extras = Array.from(arguments).slice(2);
+    return setTimeout(func, wait, ...extras);
   };
 
 
@@ -354,7 +390,15 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
-    return array;
+    // Make copy of array
+    var result = [];
+    var tempArr = array.slice(0);
+
+    while(tempArr.length) {
+      result.push(tempArr.splice(Math.floor(Math.random() * tempArr.length), 1)[0]);
+    }
+
+    return result;
   };
 
 
