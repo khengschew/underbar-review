@@ -189,33 +189,41 @@
     // output: single value/object/array
      
     // State: no accumulator passed
-      // Loop through collection from index 1 to end:
-        // call iterator on each element (iterator(memo = accumulator, item = value))
-    // if (accumulator === undefined) {
-    // // Set accumulator
-    // accumulator = accumulator || Array.isArray(collection) ? collection[0] : FILL_ME_IN;
+        // Loop through collection from index 1 to end:
+          // call iterator on each element (iterator(memo = accumulator, item = value))
+      // if (accumulator === undefined) {
+      // // Set accumulator
+      // accumulator = accumulator || Array.isArray(collection) ? collection[0] : FILL_ME_IN;
 
-    //   for (var i = 1; i < collection.length; i++) {
-    //     accumulator = iterator(accumulator, collection[i]);
-    //   }
-    // }
+      //   for (var i = 1; i < collection.length; i++) {
+      //     accumulator = iterator(accumulator, collection[i]);
+      //   }
+      // }
 
-    // State: accumulator available
-    // Loop through collection from index 0 to end:
-    // call iterator on each element (iterator(memo = accumulator, item = value))
+      // State: accumulator available
+      // Loop through collection from index 0 to end:
+      // call iterator on each element (iterator(memo = accumulator, item = value))
     
-    // Loop from 0 to length
-      // check if i = 0
-      // if start of loop, check if accumulator assigned
-        // if not assigned, set to first value, continue
-      // perform loop operation
-    for (var i = 0; i < collection.length; i++) {
+    // var tempArr;
+      // If collection is array, set tempArr = collection
+      // Else set tempArr = Object.keys(collection)
+    // Loop from 0 to tempArr.length
+    // check if i = 0
+    // if start of loop, check if accumulator assigned
+      // if not assigned, set to first value, continue
+        // Set first value for array or object
+    // perform loop operation
+    var tempArr = Array.isArray(collection) ? collection : Object.keys(collection);
+
+    for (var i = 0; i < tempArr.length; i++) {
+      var tempVal = Array.isArray(collection) ? tempArr[i] : collection[tempArr[i]];
+
       if (i === 0 && accumulator === undefined) {
-        accumulator = collection[i];
+        accumulator = tempVal;
         continue;
       }
 
-      accumulator = iterator(accumulator, collection[i]);
+      accumulator = iterator(accumulator, tempVal);
     }
 
     return accumulator;
